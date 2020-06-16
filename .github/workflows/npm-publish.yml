@@ -4,9 +4,7 @@
 name: Publish
 
 on:
-  pull_request_review:
-    types:
-      - submitted
+  - push
 
 jobs:
 
@@ -15,23 +13,6 @@ jobs:
     if: contains('OWNER,COLLABORATOR', github.event.review.author_association) && startsWith(github.event.review.body, '🚀')
     steps:
       - uses: actions/checkout@v2
-        with:
-          ref: master
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 12
-          registry-url: https://registry.npmjs.org/
-      - run: npm install
-      - uses: fregante/setup-git-token@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-      - name: npm version
-        run: |
-          WORDS=($COMMENT)
-          npm version ${WORDS[1]}
-        env:
-          COMMENT: ${{ github.event.review.body }}
-      - run: npm publish
+      - run: npm whoami
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
-      - run: git push --follow-tags
