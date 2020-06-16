@@ -10,7 +10,6 @@ jobs:
 
   npm:
     runs-on: ubuntu-latest
-    if: contains('OWNER,COLLABORATOR', github.event.review.author_association) && startsWith(github.event.review.body, '🚀')
     steps:
       - uses: actions/checkout@v2
       - run: npm whoami
